@@ -61,22 +61,22 @@
 <body class="bg-lembut min-h-screen flex items-center justify-center p-4">
     <div id="wadahUtama" class="bg-white rounded-3xl shadow-2xl max-w-lg w-full p-6 text-center relative overflow-hidden">
 
-        <!-- RUANG VIDEO DARI GITHUB, TANPA SUARA, UKURAN 1:1 -->
+        <!-- RUANG VIDEO GITHUB - ukuran 1:1, otomatis diam, berulang -->
         <div id="ruangVideoAtas" class="wadah-video sembunyi">
-            <video id="pemutarVideo" width="120" height="120" autoplay muted loop playsinline>
-                <!-- GANTI DENGAN LINK RAW DARI GITHUB KAMU -->
-                <source src="https://github.com/apofstoregroup-commits/Ulang-tahun/blob/6045ff2945c5a55a9da3b9ef8e9156b79f062e0a/screen-20260619-234413~2.mp4" type="video/mp4">
-                Browser kamu tidak mendukung pemutaran video.
+            <video id="pemutarVideo" width="120" height="120" muted loop playsinline preload="auto">
+                <source src="https://raw.githubusercontent.com/NamaPengguna/NamaRepo/main/video_ucapan.mp4" type="video/mp4">
             </video>
         </div>
 
-        <!-- 1. Putar Musik -->
+        <!-- 1. Putar Musik dari GitHub -->
         <div id="bagian1" class="aktif flex-col gap-6 items-center justify-center min-h-[420px] muncul">
             <i class="fa fa-music text-7xl text-ulangtahun berputar"></i>
             <h2 class="text-2xl font-bold text-ulangtahun">Mulai Lagu Spesial 🎵</h2>
             <p class="text-gray-600">Tekan tombol di bawah untuk memulai</p>
             <button id="tombolMusik" class="bg-ulangtahun text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:brightness-110">Putar Lagu</button>
-            <iframe id="pemutarYt" src="" width="0" height="0" allow="autoplay; encrypted-media" class="sembunyi"></iframe>
+            <audio id="pemutarMusik" loop preload="auto">
+                <source src="https://raw.githubusercontent.com/NamaPengguna/NamaRepo/main/musik_latar.mp3" type="audio/mpeg">
+            
         </div>
 
         <!-- 2. Isi Nama -->
@@ -154,35 +154,33 @@
     </div>
 
     <script>
-        // === PENGATURAN UTAMA ===
-        const tautanLaguYT = "https://www.youtube.com/embed/iFoVp6vCl5I?autoplay=1&loop=0";
-
         // Navigasi bagian
         const bagian = document.querySelectorAll('[id^="bagian"]');
         let indeksSaatIni = 0;
         let namaPenerima = "";
+        const pemutarMusik = document.getElementById("pemutarMusik");
+        const pemutarVideo = document.getElementById("pemutarVideo");
+        const ruangVideo = document.getElementById("ruangVideoAtas");
 
-        // Fungsi ganti tampilan + atur tampilan video
+        // Fungsi ganti tampilan + atur video
         function gantiBagian(ke) {
             bagian[indeksSaatIni].classList.add("sembunyi");
             bagian[ke].classList.remove("sembunyi");
             indeksSaatIni = ke;
 
-            // Tampilkan video HANYA di bagian: Ucapan Selamat, Motivasi, Permohonan Maaf
-            const ruangVideo = document.getElementById("ruangVideoAtas");
-            const pemutarVideo = document.getElementById("pemutarVideo");
+            // Tampilkan & mainkan video HANYA di bagian Ucapan, Motivasi, Maaf
             if (ke === 4 || ke === 5 || ke === 6) {
                 ruangVideo.classList.remove("sembunyi");
-                pemutarVideo.play();
+                pemutarVideo.play().catch(() => {});
             } else {
                 ruangVideo.classList.add("sembunyi");
                 pemutarVideo.pause();
             }
         }
 
-        // 1. Musik YouTube
+        // 1. Putar Musik GitHub
         document.getElementById("tombolMusik").addEventListener("click", () => {
-            document.getElementById("pemutarYt").src = tautanLaguYT;
+            pemutarMusik.play().catch(() => {});
             gantiBagian(1);
         });
 
